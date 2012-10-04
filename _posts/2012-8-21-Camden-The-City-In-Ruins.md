@@ -1,0 +1,9 @@
+---
+layout: recentreadings
+title: "City of Ruins"
+categories : [recentreadings]
+readurl: http://www.thenation.com/article/155801/city-ruins#
+pullquote: "Camden, New Jersey, with a population of 70,390, is per capita the poorest city in the nation. It is also the most dangerous. The city's real unemployment—hard to estimate, since many residents have been severed from the formal economy for generations—is probably 30–40 percent. The median household income is $24,600. There is a 70 percent high school dropout rate, with only 13 percent of students managing to pass the state's proficiency exams in math. The city is planning $28 million in draconian budget cuts, with officials talking about cutting 25 percent from every department, including layoffs of nearly half the police force. The proposed slashing of the public library budget by almost two-thirds has left the viability of the library system in doubt.
+
+Camden is where those discarded as human refuse are dumped, along with the physical refuse of postindustrial America. A sprawling sewage treatment plant on forty acres of riverfront land processes 58 million gallons of wastewater a day for Camden County. The stench of sewage lingers in the streets. There is a huge trash-burning plant that releases noxious clouds, a prison, a massive cement plant and mountains of scrap metal feeding into a giant shredder. The city is scarred with several thousand decaying abandoned row houses; the skeletal remains of windowless brick factories and gutted gas stations; overgrown vacant lots filled with garbage and old tires; neglected, weed-filled cemeteries; and boarded-up store fronts."
+---
