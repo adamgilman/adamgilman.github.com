@@ -8,7 +8,12 @@ title: welcome to this
 <ul>
   {% for post in site.posts limit:10 %}
       <li>
-          [{{post.categories}}] | <a href="{{ post.url }}">{{ post.title }}</a>
+         <a href="{{ post.url }}">{{ post.title }}</a>
+         {% if post.category != "blog" %}       	
+			<blockquote>
+			{{post.pullquote}}
+			</blockquote>
+         {% endif %}
       </li>
   {% endfor %}
 </ul>
