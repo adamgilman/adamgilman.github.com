@@ -9,7 +9,12 @@ title: Recent Readings
 <p>
 <ul>
 	{% for post in site.categories.recentreadings %}
-	    <li><a href="{{post.url}}">{{post.title}}</a></li>
+	    <li><h2><strong><a href="{{post.url}}">{{post.title}}</a></strong></h2>
+	    	<blockquote>
+	    		{{post.pullquote}}
+	    	</blockquote>
+	    </li>
+
 	{% endfor %}
 </ul>
 </p>
