@@ -1,7 +1,6 @@
 ---
 layout: base
 title: welcome to this
-
 ---
 <h3>recent content</h3>
 <p>
