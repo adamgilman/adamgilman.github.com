@@ -1,6 +1,6 @@
 ---
 layout: post
-title: stretchboard: CFB Scoreboard with a 5 week view of the top 25
+title: stretchboard- CFB Scoreboard with a 5 week view of the top 25
 categories : [blog]
 ---
 <h1 id="stretchboard">stretchboard</h1>
