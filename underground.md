@@ -16,7 +16,7 @@ This project's aim is to get an accurate representation of the tph (trains per h
 The high level plan breaks down into the following components
 
 * Start with a singular line for an MVP (Victoria due to simplicity)
-* Identify all of the measurement points (TrackCodes) along a line
+* [Identify all of the measurement points (TrackCodes) along a line](/underground/trackcodes/)
 * Map all measurement points for each line, on each branch, in every direction
 * Measure train counts along each point
 * Build basic UI for displaying train performance
