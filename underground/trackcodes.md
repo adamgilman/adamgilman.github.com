@@ -20,9 +20,13 @@ As a part of my methodology in determinig the frequency of trains (tph: trains p
 u'TV6818'
 {% endhighlight %}
 
+We are focusing on the Victoria line initially since, it's the most straightforward of the London Underground lines, literally. With no branches, no complex arrangements and only a few sidings and turn arounds, it's easy to begin our analysis so we aren't bogged down by the complexity of the layout until after we solve the original problem.  
+
+<img src="/public/images/underground/victoria.gif" width="100%">
+
 These TrackCodes are not documented anywhere on any TfL website and have been subject to [FOI requests](https://www.whatdotheyknow.com/request/trackcode_locations) but, have been denied, so we will have to map them manually.
 
-First, I have to discover all of the TrackCodes in order to map them out in the order in which they actually appear. By querying the TrackNet API at a specific frequency, I can see the train and it's location and it's motion across the line I'm working on (starting with the Victoria Line)
+First, I have to discover all of the TrackCodes in order to map them out in the order in which they actually appear. By querying the TrackNet API at a specific frequency, I can see all of the trains on a line and their location over time.
 
 {% highlight python %}
 from tube import Tube
@@ -61,17 +65,51 @@ while True:
     sleep(10)
 {% endhighlight %}
 
-<img style="float: left" src="/public/images/underground/leadingcar-id.png" width="200">
-With my newly collected individual train data
+<img class="parafloat" src="/public/images/underground/leadingcar-id.png" width="200" padding="20">
 {% highlight python %}
 3891671 	 TV6725 	 At Platform
 3891671 	 TV6761 	 Between Vauxhall and Stockwell
 3891671 	 TV6761 	 Between Vauxhall and Stockwell
 3891671 	 TV6769 	 At Stockwell
 {% endhighlight %}
+With my newly collected individual train data, I can follow a single train up and down the line and three important bits of information.
 
-* find all unique track codes (set)
-* find the order of track codes for each nb/sb  
+* The unique set of track codes
+* The order of the track codes
+* A description for each track code
+
+
+## Unique set of track codes
+A quick loop through all of the files, and all of the lines of the files we can extract every known track code and use a Python set to quickly find the all of the unique instances for the Victoria line.
+
+{% highlight python %}
+import glob, pprint as pp
+track_codes = set([])
+for file in glob.glob("*.dat"):
+    with open(file) as f:
+        for line in f:
+            track_codes.add( line.split("\t")[1] )
+print pp.pprint( track_codes )
+{% endhighlight %}
+
+{% highlight python %}
+set([' TV6024 ',
+     ' TV6025 ',
+     ' TV6026 ',
+     ' TV6027 ',
+     ' TV6028_2 ',
+     ' TV6029_1 ',
+     ' TV6029_2 ',
+     ' TV6029_3 ',
+     ' TV6031 ',
+     ...
+     ' TV6825 '])
+{% endhighlight %}
+
+## The order of the track codes
+
+## A description for each track code
+
 
 > Curabitur blandit tempus porttitor. Nullam quis risus eget urna mollis ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.
 
