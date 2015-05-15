@@ -77,6 +77,8 @@ With my newly collected individual train data, I can follow a single train up an
 * The unique set of track codes
 * The order of the track codes
 * A description for each track code
+* Identify sidings and turn arounds
+* Full trackcode map of the Victoria Line
 
 
 ## Unique set of track codes
@@ -107,117 +109,518 @@ set([' TV6024 ',
 {% endhighlight %}
 
 ## The order of the track codes
+A curousy glance at any of the train specific track codes shows that track codes are orderly arranged in a pretty consistent manner, which makes analyzing the middle sections of the line fairly straightforward
 
-## A description for each track code
-
-
-> Curabitur blandit tempus porttitor. Nullam quis risus eget urna mollis ornare vel eu leo. Nullam id dolor id nibh ultricies vehicula ut id elit.
-
-Etiam porta **sem malesuada magna** mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.
-
-## Inline HTML elements
-
-HTML defines a long list of available inline tags, a complete list of which can be found on the [Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/HTML/Element).
-
-- **To bold text**, use `<strong>`.
-- *To italicize text*, use `<em>`.
-- Abbreviations, like <abbr title="HyperText Markup Langage">HTML</abbr> should use `<abbr>`, with an optional `title` attribute for the full phrase.
-- Citations, like <cite>&mdash; Mark otto</cite>, should use `<cite>`.
-- <del>Deleted</del> text should use `<del>` and <ins>inserted</ins> text should use `<ins>`.
-- Superscript <sup>text</sup> uses `<sup>` and subscript <sub>text</sub> uses `<sub>`.
-
-Most of these elements are styled by browsers with few modifications on our part.
-
-## Heading
-
-Vivamus sagittis lacus vel augue rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-
-### Code
-
-Cum sociis natoque penatibus et magnis dis `code element` montes, nascetur ridiculus mus.
-
-{% highlight js %}
-// Example can be run directly in your JavaScript console
-
-// Create a function that takes two arguments and returns the sum of those arguments
-var adder = new Function("a", "b", "return a + b");
-
-// Call the function
-adder(2, 6);
-// > 8
+{% highlight python %}
+3914411 	 TV6425 	 At Euston
+3914411 	 TV6437 	 Between Warren Street and Euston
+3914411 	 TV6479 	 Between Oxford Circus and Warren Street
+3914411 	 TV6521 	 At Oxford Circus
+3914411 	 TV6525 	 At Oxford Circus
+3914411 	 TV6533 	 Between Oxford Circus and Green Park
+3914411 	 TV6579 	 Departed Green Park
+3914411 	 TV6591 	 Between Green Park and Victoria
 {% endhighlight %}
 
-Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa.
+TV6425, TV6437, TV6479, TV6521, TV6525, TV6533, TV6579, TV6591 between Euston and Victoria increases quite nicely while going Southbound and interestingly are all odd.
 
-### Lists
+Looking at a Northbound train:
+{% highlight python %}
+6030561 	 TV6624 	 At Victoria
+6030561 	 TV6612 	 Between Victoria and Green Park
+6030561 	 TV6586 	 Approaching Green Park
+6030561 	 TV6580 	 At Green Park
+6030561 	 TV6574 	 At Green Park
+6030561 	 TV6572 	 Departed Green Park
+6030561 	 TV6564 	 Between Green Park and Oxford Circus
+6030561 	 TV6560 	 Approaching Oxford Circus
+6030561 	 TV6526 	 At Oxford Circus
+6030561 	 TV6524 	 At Oxford Circus
+6030561 	 TV6522 	 Departed Oxford Circus
+6030561 	 TV6524 	 At Oxford Circus
+6030561 	 TV6514 	 Between Warren Street and Oxford Circus
+6030561 	 TV6474 	 At Warren Street
+6030561 	 TV6462 	 Between Euston and Warren Street
+6030561 	 TV6472 	 Between Euston and Warren Street
+6030561 	 TV6426 	 At Euston
+{% endhighlight %}
+TV6624, TV6612, TV6586, TV6580, TV6574: we can seem the same linear progression of track codes decreasing and going Northbound are all even. Implying all Northbound track codes are even and Southbound tracks are odd.
 
-Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+Next, looking at the end of the lines, where trains turn NB -> SB and vica versa we see data matching our previous assumptions
+{% highlight python %}
+3891671 	 TV6769 	 At Stockwell
+3891671 	 TV6775 	 At Platform
+3891671 	 TV6815 	 Between Stockwell and Brixton
+3891671 	 TV6817 	 Between Stockwell and Brixton
+3891671 	 TV6824 	 At Brixton Platform 1
+3891671 	 TV6784 	 Approaching Stockwell
+{% endhighlight %}
+TV6769, TV6775, TV6815, TV6817, TV6824, TV6784: We can see the train going SB to the end of the line at Brixton traveling on numerically increasing odd track codes and then turning NB onto an numerically decreasing even track code.
 
-* Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-* Donec id elit non mi porta gravida at eget metus.
-* Nulla vitae elit libero, a pharetra augue.
+## A description for each track code
+Getting all of the descriptions for track codes is very similar to the process of getting the unique ones. Iterate over all of the files, find the unique track codes and extract the descriptions from them. There's a slight hiccup in the data in that some track codes are listed with differing descriptions for an unknown reason for now.
+{% highlight python %}
+import glob, pprint as pp
+code_description = {}
+for file in glob.glob("*.dat"):
+    with open(file) as f:
+        for line in f:
+            line = line.split("\t")
+            line = [x.strip() for x in line]
+            track_code, description = line[1:]
+            if code_description.has_key(track_code):
+                code_description[track_code].add(description)
+            else:
+                code_description[track_code] = set([description])
+{% endhighlight %}
+{% highlight python %}
+{'TV6024': set(['At Walthamstow Central']),
+ 'TV6025': set(['At Walthamstow Central']),
+ 'TV6026': set(['Between Walthamstow Central and Blackhorse Road']),
+ ....
+ 'TV6824': set(['At Brixton Platform 1']),
+ 'TV6825': set(['At Brixton Platform 2', 'At Platform'])}
+{% endhighlight %}
 
-Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit libero, a pharetra augue.
+We can see that for TV6825 there are two different descriptions: 'At Brixton Platform 2' and 'At Platform'. This will probably require some manual cleaning of the data in the future.
 
-1. Vestibulum id ligula porta felis euismod semper.
-2. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-3. Maecenas sed diam eget risus varius blandit sit amet non magna.
+## Identify sidings and turn arounds
+In looking through track descriptions, there's some oddities which don't follow our already assumed patterns we have seen. There are some track codes with underscores (_) in their name which occur along the line.
+{% highlight python %}
+TV6281_2 set(['Departed Finsbury Park'])
+TV6823_1 set(['Brixton Area'])
+TV6317_2 set(['Between Finsbury Park and Highbury & Islington'])
+TV6627_2 set(['At Victoria'])
+TV6823_2 set(['Brixton Area'])
+TV6314_2 set(['Between Highbury & Islington and Finsbury Park'])
+TV6029_2 set(['Between Walthamstow Central and Blackhorse Road'])
+TV6029_3 set(['Between Walthamstow Central and Blackhorse Road'])
+TV6029_1 set(['Between Walthamstow Central and Blackhorse Road'])
+TV6821_1 set(['Brixton Area'])
+TV6372_2 set(['Between Kings Cross St. Pancras and Highbury & Isl'])
+TV6820_3 set(['0'])
+TV6616_2 set(['Between Victoria and Green Park'])
+TV6228_2 set(['Between Finsbury Park and Seven Sisters'])
+TV6171_1 set(['Between Northumberland Park Depot and Seven Sisters'])
+TV6171_2 set(['Approaching Seven Sisters'])
+TV6615_2 set(['Between Green Park and Victoria'])
+TV6365_2 set(['Between Highbury & Islington and Kings Cross St. P'])
+TV6028_2 set(['Between Walthamstow Central and Blackhorse Road'])
+TV6822_2 set(['Brixton Area'])
+TV6465_2 set(['Between Warren Street and Euston'])
+TV6820_2 set(['0'])
+TV6282_2 set(['Between Highbury & Islington and Finsbury Park'])
+TV6464_2 set(['Between Euston and Warren Street'])
+TV6634_2 set(['Approaching Victoria'])
+{% endhighlight %}
+With the exceptions of the unknown "0" descriptions, the rest of the underscore track codes occur at the end of the lines (Brixton, Walthamstow), major stations (Victoria, Kings Cross, Euston), etc. We can assume these are turn around points in the line and also sidings. Trains can presumably change course (NB -> SB, SB -> NB) and originate from on routes.
 
-Cras mattis consectetur purus sit amet fermentum. Sed posuere consectetur est at lobortis.
 
-<dl>
-  <dt>HyperText Markup Language (HTML)</dt>
-  <dd>The language used to describe and define the content of a Web page</dd>
+## Full trackcode map of the Victoria Line
 
-  <dt>Cascading Style Sheets (CSS)</dt>
-  <dd>Used to describe the appearance of Web content</dd>
+Given that we know
 
-  <dt>JavaScript (JS)</dt>
-  <dd>The programming language used to build advanced Web sites and applications</dd>
-</dl>
+* Southbound is odd
+* Northbound is even
+* "_" denotes a siding, station rail
+* Track codes are ordered numerically
 
-Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Nullam quis risus eget urna mollis ornare vel eu leo.
+A little bit of data manipulation gives us this estimated mapping of track codes
 
-### Tables
 
-Aenean lacinia bibendum nulla sed consectetur. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
+
+
+<tr> <td>TV6123</td> <td>At Tottenham Hale</td> </tr>
+
+<tr> <td>TV6125</td> <td>At Tottenham Hale</td> </tr>
+
+<tr> <td>TV6127</td> <td>Departed Tottenham Hale</td> </tr>
+
+<tr> <td>TV6129</td> <td>Departed Tottenham Hale</td> </tr>
+
+<tr> <td>TV6133</td> <td>Between Tottenham Hale and Seven Sisters</td> </tr>
+
+<tr> <td>TV6165</td> <td>Between Northumberland Park Depot and Seven Sisters</td> </tr>
+
+<tr> <td>TV6171_1</td> <td>Between Northumberland Park Depot and Seven Sisters</td> </tr>
+
+<tr> <td>TV6171_2</td> <td>Approaching Seven Sisters</td> </tr>
+
+<tr> <td>TV6211</td> <td>Between Tottenham Hale and Seven Sisters</td> </tr>
+
+<tr> <td>TV6213</td> <td>Between Tottenham Hale and Seven Sisters</td> </tr>
+
+<tr> <td>TV6217</td> <td>At Seven Sisters Platform 5</td> </tr>
+
+<tr> <td>TV6219</td> <td>At Seven Sisters Platform 5</td> </tr>
+
+<tr> <td>TV6223</td> <td>At Seven Sisters Platform 5</td> </tr>
+
+<tr> <td>TV6225</td> <td>At Seven Sisters Platform 5</td> </tr>
+
+<tr> <td>TV6227</td> <td>Departed Seven Sisters</td> </tr>
+
+<tr> <td>TV6233</td> <td>Between Seven Sisters and Finsbury Park</td> </tr>
+
+<tr> <td>TV6235</td> <td>Between Seven Sisters and Finsbury Park</td> </tr>
+
+<tr> <td>TV6237</td> <td>Between Seven Sisters and Finsbury Park</td> </tr>
+
+<tr> <td>TV6239</td> <td>Between Seven Sisters and Finsbury Park</td> </tr>
+
+<tr> <td>TV6241</td> <td>Between Seven Sisters and Finsbury Park</td> </tr>
+
+<tr> <td>TV6255</td> <td>Between Seven Sisters and Finsbury Park</td> </tr>
+
+<tr> <td>TV6257</td> <td>Between Seven Sisters and Finsbury Park</td> </tr>
+
+<tr> <td>TV6259</td> <td>Between Seven Sisters and Finsbury Park</td> </tr>
+
+<tr> <td>TV6261</td> <td>Between Seven Sisters and Finsbury Park</td> </tr>
+
+<tr> <td>TV6265</td> <td>Approaching Finsbury Park</td> </tr>
+
+<tr> <td>TV6273</td> <td>At Finsbury Park</td> </tr>
+
+<tr> <td>TV6275</td> <td>Departed Finsbury Park</td> </tr>
+
+<tr> <td>TV6279</td> <td>Departed Finsbury Park</td> </tr>
+
+<tr> <td>TV6281_2</td> <td>Departed Finsbury Park</td> </tr>
+
+<tr> <td>TV6283</td> <td>Between Finsbury Park and Highbury & Islington</td> </tr>
+
+<tr> <td>TV6307</td> <td>Between Finsbury Park and Highbury & Islington</td> </tr>
+
+<tr> <td>TV6309</td> <td>Between Finsbury Park and Highbury & Islington</td> </tr>
+
+<tr> <td>TV6311</td> <td>Between Finsbury Park and Highbury & Islington</td> </tr>
+
+<tr> <td>TV6313</td> <td>Between Finsbury Park and Highbury & Islington</td> </tr>
+
+<tr> <td>TV6317_2</td> <td>Between Finsbury Park and Highbury & Islington</td> </tr>
+
+<tr> <td>TV6319</td> <td>Between Finsbury Park and Highbury & Islington</td> </tr>
+
+<tr> <td>TV6321</td> <td>Approaching Highbury & Islington</td> </tr>
+
+<tr> <td>TV6323</td> <td>At Highbury & Islington</td> </tr>
+
+<tr> <td>TV6325</td> <td>At Highbury & Islington</td> </tr>
+
+<tr> <td>TV6327</td> <td>Departed Highbury & Islington</td> </tr>
+
+<tr> <td>TV6329</td> <td>Departed Highbury & Islington</td> </tr>
+
+<tr> <td>TV6331</td> <td>Between Highbury & Islington and Kings Cross St. P</td> </tr>
+
+<tr> <td>TV6333</td> <td>Between Highbury & Islington and Kings Cross St. P</td> </tr>
+
+<tr> <td>TV6335</td> <td>Between Highbury & Islington and Kings Cross St. P</td> </tr>
+
+<tr> <td>TV6337</td> <td>Between Highbury & Islington and Kings Cross St. P</td> </tr>
+
+<tr> <td>TV6339</td> <td>Between Highbury & Islington and Kings Cross St. P</td> </tr>
+
+<tr> <td>TV6341</td> <td>Between Highbury & Islington and Kings Cross St. P</td> </tr>
+
+<tr> <td>TV6357</td> <td>Between Highbury & Islington and Kings Cross St. P</td> </tr>
+
+<tr> <td>TV6359</td> <td>Between Highbury & Islington and Kings Cross St. P</td> </tr>
+
+<tr> <td>TV6361</td> <td>Between Highbury & Islington and Kings Cross St. P</td> </tr>
+
+<tr> <td>TV6363</td> <td>Between Highbury & Islington and Kings Cross St. P</td> </tr>
+
+<tr> <td>TV6365_2</td> <td>Between Highbury & Islington and Kings Cross St. P</td> </tr>
+
+<tr> <td>TV6369</td> <td>At Kings Cross St. Pancras</td> </tr>
+
+<tr> <td>TV6375</td> <td>At Kings Cross St. Pancras</td> </tr>
+
+<tr> <td>TV6377</td> <td>Departed Kings Cross St. Pancras</td> </tr>
+
+<tr> <td>TV6381</td> <td>Between Kings Cross St. Pancras and Euston</td> </tr>
+
+<tr> <td>TV6383</td> <td>Between Kings Cross St. Pancras and Euston</td> </tr>
+
+<tr> <td>TV6387</td> <td>Between Kings Cross St. Pancras and Euston</td> </tr>
+
+<tr> <td>TV6389</td> <td>Approaching Euston</td> </tr>
+
+<tr> <td>TV6423</td> <td>At Euston</td> </tr>
+
+<tr> <td>TV6425</td> <td>At Platform, At Euston</td> </tr>
+
+<tr> <td>TV6427</td> <td>Between Warren Street and Euston</td> </tr>
+
+<tr> <td>TV6429</td> <td>Between Warren Street and Euston</td> </tr>
+
+<tr> <td>TV6435</td> <td>Between Warren Street and Euston</td> </tr>
+
+<tr> <td>TV6437</td> <td>Between Warren Street and Euston</td> </tr>
+
+<tr> <td>TV6465_2</td> <td>Between Warren Street and Euston</td> </tr>
+
+<tr> <td>TV6475</td> <td>At Warren Street, At Platform</td> </tr>
+
+<tr> <td>TV6479</td> <td>Between Oxford Circus and Warren Street</td> </tr>
+
+<tr> <td>TV6481</td> <td>Between Oxford Circus and Warren Street</td> </tr>
+
+<tr> <td>TV6485</td> <td>Between Oxford Circus and Warren Street</td> </tr>
+
+<tr> <td>TV6513</td> <td>Between Oxford Circus and Warren Street</td> </tr>
+
+<tr> <td>TV6515</td> <td>Between Oxford Circus and Warren Street</td> </tr>
+
+<tr> <td>TV6517</td> <td>At Oxford Circus</td> </tr>
+
+<tr> <td>TV6519</td> <td>At Oxford Circus</td> </tr>
+
+<tr> <td>TV6521</td> <td>At Oxford Circus</td> </tr>
+
+<tr> <td>TV6525</td> <td>At Oxford Circus</td> </tr>
+
+<tr> <td>TV6527</td> <td>Between Oxford Circus and Green Park</td> </tr>
+
+<tr> <td>TV6529</td> <td>Between Oxford Circus and Green Park</td> </tr>
+
+<tr> <td>TV6533</td> <td>Between Oxford Circus and Green Park</td> </tr>
+
+<tr> <td>TV6535</td> <td>Between Oxford Circus and Green Park</td> </tr>
+
+<tr> <td>TV6561</td> <td>Between Oxford Circus and Green Park</td> </tr>
+
+<tr> <td>TV6563</td> <td>Approaching Green Park</td> </tr>
+
+<tr> <td>TV6567</td> <td>At Green Park</td> </tr>
+
+<tr> <td>TV6573</td> <td>At Green Park</td> </tr>
+
+<tr> <td>TV6575</td> <td>At Platform, At Green Park</td> </tr>
+
+<tr> <td>TV6577</td> <td>Departed Green Park</td> </tr>
+
+<tr> <td>TV6579</td> <td>Departed Green Park</td> </tr>
+
+<tr> <td>TV6581</td> <td>Between Green Park and Victoria</td> </tr>
+
+<tr> <td>TV6589</td> <td>Between Green Park and Victoria</td> </tr>
+
+<tr> <td>TV6591</td> <td>Between Green Park and Victoria</td> </tr>
+
+<tr> <td>TV6607</td> <td>Between Green Park and Victoria</td> </tr>
+
+<tr> <td>TV6613</td> <td>Between Green Park and Victoria</td> </tr>
+
+<tr> <td>TV6615_2</td> <td>Between Green Park and Victoria</td> </tr>
+
+<tr> <td>TV6617</td> <td>At Victoria</td> </tr>
+
+<tr> <td>TV6621</td> <td>At Victoria</td> </tr>
+
+<tr> <td>TV6623</td> <td>At Victoria</td> </tr>
+
+<tr> <td>TV6625</td> <td>At Victoria</td> </tr>
+
+<tr> <td>TV6627_2</td> <td>At Victoria</td> </tr>
+
+<tr> <td>TV6631</td> <td>Departed Victoria</td> </tr>
+
+<tr> <td>TV6635</td> <td>Between Victoria and Pimlico</td> </tr>
+
+<tr> <td>TV6637</td> <td>Between Victoria and Pimlico</td> </tr>
+
+<tr> <td>TV6639</td> <td>Approaching Pimlico</td> </tr>
+
+<tr> <td>TV6673</td> <td>Approaching Pimlico</td> </tr>
+
+<tr> <td>TV6675</td> <td>At Pimlico, At Platform</td> </tr>
+
+<tr> <td>TV6677</td> <td>Departed Pimlico</td> </tr>
+
+<tr> <td>TV6679</td> <td>Departed Pimlico</td> </tr>
+
+<tr> <td>TV6717</td> <td>Between Pimlico and Vauxhall</td> </tr>
+
+<tr> <td>TV6719</td> <td>Approaching Vauxhall</td> </tr>
+
+<tr> <td>TV6721</td> <td>Approaching Vauxhall</td> </tr>
+
+<tr> <td>TV6723</td> <td>At Platform, At Vauxhall</td> </tr>
+
+<tr> <td>TV6725</td> <td>At Platform, At Vauxhall</td> </tr>
+
+<tr> <td>TV6727</td> <td>Departed Vauxhall</td> </tr>
+
+<tr> <td>TV6729</td> <td>Departed Vauxhall</td> </tr>
+
+<tr> <td>TV6731</td> <td>Between Vauxhall and Stockwell</td> </tr>
+
+<tr> <td>TV6761</td> <td>Between Vauxhall and Stockwell</td> </tr>
+
+<tr> <td>TV6763</td> <td>Between Vauxhall and Stockwell</td> </tr>
+
+<tr> <td>TV6765</td> <td>Approaching Stockwell</td> </tr>
+
+<tr> <td>TV6767</td> <td>Approaching Stockwell</td> </tr>
+
+<tr> <td>TV6769</td> <td>At Platform, At Stockwell</td> </tr>
+
+<tr> <td>TV6771</td> <td>At Platform</td> </tr>
+
+<tr> <td>TV6773</td> <td>At Platform</td> </tr>
+
+<tr> <td>TV6775</td> <td>At Platform, At Stockwell</td> </tr>
+
+<tr> <td>TV6777</td> <td>Departed Stockwell</td> </tr>
+
+<tr> <td>TV6779</td> <td>Departed Stockwell</td> </tr>
+
+<tr> <td>TV6781</td> <td>Between Stockwell and Brixton</td> </tr>
+
+<tr> <td>TV6783</td> <td>Between Stockwell and Brixton</td> </tr>
+
+<tr> <td>TV6789</td> <td>Between Stockwell and Brixton</td> </tr>
+
+<tr> <td>TV6815</td> <td>Between Stockwell and Brixton</td> </tr>
+
+<tr> <td>TV6817</td> <td>Between Stockwell and Brixton</td> </tr>
+
+<tr> <td>TV6819</td> <td>Approaching Brixton</td> </tr>
+
+<tr> <td>TV6821_1</td> <td>Brixton Area</td> </tr>
+
+<tr> <td>TV6823_1</td> <td>Brixton Area</td> </tr>
+
+<tr> <td>TV6823_2</td> <td>Brixton Area</td> </tr>
+
+<tr> <td>TV6825</td> <td>At Brixton Platform 2, At Platform</td> </tr>
+
+## Southbound
 <table>
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Upvotes</th>
-      <th>Downvotes</th>
+      <th>Station</th>
+      <th>Track Code</th>
     </tr>
   </thead>
-  <tfoot>
     <tr>
-      <td>Totals</td>
-      <td>21</td>
-      <td>23</td>
+      <td>Walthamstow Central</td>
+      <td>
+        <table>
+          <tr> <td>TV6025</td> <td>At Walthamstow Central</td> </tr>
+
+          <tr> <td>TV6027</td> <td>Between Walthamstow Central and Blackhorse Road</td> </tr>
+
+          <tr> <td>TV6029_1</td> <td>Between Walthamstow Central and Blackhorse Road</td> </tr>
+
+          <tr> <td>TV6029_2</td> <td>Between Walthamstow Central and Blackhorse Road</td> </tr>
+
+          <tr> <td>TV6029_3</td> <td>Between Walthamstow Central and Blackhorse Road</td> </tr>
+
+          <tr> <td>TV6031</td> <td>Between Walthamstow Central and Blackhorse Road</td> </tr>
+
+          <tr> <td>TV6033</td> <td>Between Walthamstow Central and Blackhorse Road</td> </tr>
+
+          <tr> <td>TV6071</td> <td>Between Walthamstow Central and Blackhorse Road</td> </tr>
+        </table>
+      </td>
     </tr>
-  </tfoot>
-  <tbody>
     <tr>
-      <td>Alice</td>
-      <td>10</td>
-      <td>11</td>
+      <td>Blackhorse Road</td>
+      <td>
+        <table>
+          <tr> <td>TV6075</td> <td>At Blackhorse Road</td> </tr>
+
+          <tr> <td>TV6077</td> <td>At Platform, At Blackhorse Road</td> </tr>
+
+          <tr> <td>TV6079</td> <td>Left Blackhorse Road</td> </tr>
+
+          <tr> <td>TV6083</td> <td>Between Tottenham Hale and Blackhorse Road</td> </tr>
+
+          <tr> <td>TV6119</td> <td>Between Tottenham Hale and Blackhorse Road</td> </tr>
+
+          <tr> <td>TV6121</td> <td>Approaching Tottenham Hale</td> </tr>
+        </table>
+      </td>
     </tr>
     <tr>
-      <td>Bob</td>
+      <td><i>Northumberland Park Depot</i></td>
       <td>4</td>
       <td>3</td>
     </tr>
     <tr>
-      <td>Charlie</td>
+      <td>Tottenham Hale</td>
       <td>7</td>
       <td>9</td>
     </tr>
-  </tbody>
+    <tr>
+      <td>Seven Sisters</td>
+      <td>7</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <td>Finsbury Park</td>
+      <td>7</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <td>Highbury & Islington</td>
+      <td>7</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <td>King's Cross</td>
+      <td>7</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <td>Euston</td>
+      <td>7</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <td>Warren Street</td>
+      <td>7</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <td>Oxford Circus</td>
+      <td>7</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <td>Green Park</td>
+      <td>7</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <td>Victoria</td>
+      <td>7</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <td>Pimlico</td>
+      <td>7</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <td>Vauxhall</td>
+      <td>7</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <td>Stockwell</td>
+      <td>7</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <td>Brixton</td>
+      <td>7</td>
+      <td>9</td>
+    </tr>
+
 </table>
-
-Nullam id dolor id nibh ultricies vehicula ut id elit. Sed posuere consectetur est at lobortis. Nullam quis risus eget urna mollis ornare vel eu leo.
-
------
-
-Want to see something else added? <a href="https://github.com/poole/poole/issues/new">Open an issue.</a>
