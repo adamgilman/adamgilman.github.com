@@ -4,11 +4,9 @@ title: trackcodes of the underground
 ---
 
 
-<div class="message">
-  This is a post in a <a href="/underground/">series</a> determining a better method of the performance of the London Underground.
-</div>
 
-As a part of my methodology in determinig the frequency of trains (tph: trains per hour) on the underground, I want to determine the position of trains at any given time in order to establish a frequency count at specific measurement points. I know from experience using the <a href="http://www.tfl.gov.uk">TfL's</a> <a href="http://www.tfl.gov.uk/info-for/open-data-users/">TracketNet API</a> deliver a "TrackCode" reference with every train which is easily accessible with my <a href="https://github.com/adamgilman/tube-python">tube-python</a> package.
+
+As a part of determining the frequency of trains (tph: trains per hour) on the underground, I want to determine the position of trains at any given time in order to establish a frequency count at specific measurement points. I know from experience using the <a href="http://www.tfl.gov.uk">TfL's</a> <a href="http://www.tfl.gov.uk/info-for/open-data-users/">TracketNet API</a> deliver a "TrackCode" reference with every train which is easily accessible with my <a href="https://github.com/adamgilman/tube-python">tube-python</a> package.
 
 {% highlight python %}
 >>> from tube import Tube
