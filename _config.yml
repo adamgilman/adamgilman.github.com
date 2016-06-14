@@ -2,7 +2,6 @@
 #
 # Use of `relative_permalinks` ensures post links from the index work properly.
 permalink:           pretty
-relative_permalinks: true
 
 # Setup
 title:               adam gilman
@@ -11,6 +10,8 @@ description:         'ruminations, projects, and random thoughts of <a href="htt
 url:                 http://adamgilman.com
 baseurl:             ''
 paginate:            5
+
+gems: [jekyll-paginate]
 
 # About/contact
 author:
