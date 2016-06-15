@@ -30,7 +30,7 @@ For example:
 
 <img class="parafloat" src="/public/images/ems/cost-calculator.png" width="200" padding="20">
 
-I can get my test cases directly from the webpages of the providers themselves, which makes TDD easier but, finding the strange edge cases will be the fun/difficult part. [Do you want to skip all of the code and go straight to the results and charts?](#results)
+I can get my test cases directly from the webpages of the providers themselves, which makes TDD easier but, finding the strange edge cases will be the fun/difficult part. All prices are rounded to the nearest USD ($) to aid in simplicity of development [Do you want to skip all of the code and go straight to the results and charts?](#results)
 
 # Vendors
 
@@ -38,3 +38,6 @@ I can get my test cases directly from the webpages of the providers themselves, 
 
 ### Tests
 <script src="https://gist-it.appspot.com/github/adamgilman/ems-costing/blob/master/tests/tests_awsses.py"></script>
+
+### AWS SES Calculator
+<script src="https://gist-it.appspot.com/github/adamgilman/ems-costing/blob/master/vendors/awsses.py"></script>
