@@ -47,5 +47,5 @@ I can get my test cases directly from the webpages of the providers themselves, 
 ### Tests
 <script src="https://gist-it.appspot.com/github/adamgilman/ems-costing/blob/master/tests/tests_sendgrid.py"></script>
 
-### AWS SES Calculator
-<script src="https://gist-it.appspot.com/github/adamgilman/ems-costing/blob/master/vendors/sendgrid.py"></script>
+### SendGrid Calculator
+<script src="https://gist-it.appspot.com/github/adamgilman/ems-costing/blob/master/vendors/sendgrid.py "></script>
