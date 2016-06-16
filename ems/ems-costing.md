@@ -11,10 +11,11 @@ In a new project I was starting I need to do some financial modeling to determin
 I did an analysis of the following EMS/TEP products from the [Tools Of The Trade](https://github.com/cjbarber/ToolsOfTheTrade#transactional-email) collection
 
 * [AWS SES](https://aws.amazon.com/ses/)
-* [PostMark](https://postmarkapp.com/)
-* [Mandrill](http://mandrill.com/)
-* [MailGun](http://www.mailgun.com/)
 * [SendGrid](http://sendgrid.com/)
+* [MailGun](http://www.mailgun.com/)
+
+* [Mandrill](http://mandrill.com/)
+* [PostMark](https://postmarkapp.com/)
 * [CritSend](http://www.critsend.com/)
 * [Postage](http://postageapp.com/)
 * [Sendwithus](https://www.sendwithus.com/)
@@ -48,4 +49,14 @@ I can get my test cases directly from the webpages of the providers themselves, 
 <script src="https://gist-it.appspot.com/github/adamgilman/ems-costing/blob/master/tests/tests_sendgrid.py"></script>
 
 ### SendGrid Calculator
-<script src="https://gist-it.appspot.com/github/adamgilman/ems-costing/blob/master/vendors/sendgrid.py "></script>
+<script src="https://gist-it.appspot.com/github/adamgilman/ems-costing/blob/master/vendors/sendgrid.py"></script>
+
+## MailGun
+
+### Tests
+<script src="https://gist-it.appspot.com/github/adamgilman/ems-costing/blob/master/tests/tests_mailgun.py"></script>
+
+### MailGun Calculator
+<script src="https://gist-it.appspot.com/github/adamgilman/ems-costing/blob/master/vendors/mailgun.py"></script>
+
+.
