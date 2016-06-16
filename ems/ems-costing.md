@@ -10,10 +10,10 @@ In a new project I was starting I need to do some financial modeling to determin
 
 I did an analysis of the following EMS/TEP products from the [Tools Of The Trade](https://github.com/cjbarber/ToolsOfTheTrade#transactional-email) collection
 
+* [AWS SES](https://aws.amazon.com/ses/)
 * [PostMark](https://postmarkapp.com/)
 * [Mandrill](http://mandrill.com/)
 * [MailGun](http://www.mailgun.com/)
-* [AWS SES](https://aws.amazon.com/ses/)
 * [SendGrid](http://sendgrid.com/)
 * [CritSend](http://www.critsend.com/)
 * [Postage](http://postageapp.com/)
@@ -41,3 +41,11 @@ I can get my test cases directly from the webpages of the providers themselves, 
 
 ### AWS SES Calculator
 <script src="https://gist-it.appspot.com/github/adamgilman/ems-costing/blob/master/vendors/awsses.py"></script>
+
+## SendGrid
+
+### Tests
+<script src="https://gist-it.appspot.com/github/adamgilman/ems-costing/blob/master/tests/tests_sendgrid.py"></script>
+
+### AWS SES Calculator
+<script src="https://gist-it.appspot.com/github/adamgilman/ems-costing/blob/master/vendors/sendgrid.py"></script>
