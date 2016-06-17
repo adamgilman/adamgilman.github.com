@@ -55,6 +55,7 @@ Code for each vendor
 
 
 <a name="aws"></a>
+
 ## AWS SES
 
 ### Tests
@@ -64,6 +65,7 @@ Code for each vendor
 <script src="https://gist-it.appspot.com/github/adamgilman/ems-costing/blob/master/vendors/awsses.py"></script>
 
 <a name="sendgrid"></a>
+
 ## SendGrid
 
 ### Tests
@@ -73,6 +75,7 @@ Code for each vendor
 <script src="https://gist-it.appspot.com/github/adamgilman/ems-costing/blob/master/vendors/sendgrid.py"></script>
 
 <a name="mailgun"></a>
+
 ## MailGun
 
 ### Tests
@@ -82,6 +85,7 @@ Code for each vendor
 <script src="https://gist-it.appspot.com/github/adamgilman/ems-costing/blob/master/vendors/mailgun.py"></script>
 
 <a name="postage"></a>
+
 ## PostageApp
 
 ### Tests
@@ -91,6 +95,7 @@ Code for each vendor
 <script src="https://gist-it.appspot.com/github/adamgilman/ems-costing/blob/master/vendors/postageapp.py"></script>
 
 <a name="postmark"></a>
+
 ## PostmarkApp
 
 ### Tests
@@ -100,6 +105,7 @@ Code for each vendor
 <script src="https://gist-it.appspot.com/github/adamgilman/ems-costing/blob/master/vendors/postmarkapp.py"></script>
 
 <a name="critsend"></a>
+
 ## CritSend
 
 ### Tests
