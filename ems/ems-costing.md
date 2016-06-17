@@ -17,7 +17,7 @@ I did an analysis of the following EMS/TEP products from the [Tools Of The Trade
 * [Postage](http://postageapp.com/)
 * [CritSend](http://www.critsend.com/)
 
-###Excluded
+### Excluded
 
 * [Sendwithus](https://www.sendwithus.com/)
 
