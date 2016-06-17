@@ -17,8 +17,15 @@ I did an analysis of the following EMS/TEP products from the [Tools Of The Trade
 * [Postage](http://postageapp.com/)
 * [CritSend](http://www.critsend.com/)
 
+###Excluded
 * [Sendwithus](https://www.sendwithus.com/)
+
+	Pricing is based on recipients and not per email. This is too much of a difference to be able to give a good comparison in transactional emails.
+
 * [Mandrill](http://mandrill.com/)
+
+	Discontinued by MailChimp
+
 
 
 For each service I want to write a basic interface in Python which I give a number of emails and it returns a cost per month. This will allow me to keep the data gathering, analysis and graphing portion extermely simple.
@@ -36,6 +43,17 @@ I can get my test cases directly from the webpages of the providers themselves, 
 
 # Vendors
 
+Code for each vendor
+
+* [AWS SES](#aws)
+* [SendGrid](#sendgrid)
+* [MailGun](#mailgun)
+* [Postage](#postage)
+* [PostMark](#postmark)
+* [CritSend](#critsend)
+
+
+<a name="aws"></a>
 ## AWS SES
 
 ### Tests
@@ -44,6 +62,7 @@ I can get my test cases directly from the webpages of the providers themselves, 
 ### AWS SES Calculator
 <script src="https://gist-it.appspot.com/github/adamgilman/ems-costing/blob/master/vendors/awsses.py"></script>
 
+<a name="sendgrid"></a>
 ## SendGrid
 
 ### Tests
@@ -52,6 +71,7 @@ I can get my test cases directly from the webpages of the providers themselves, 
 ### SendGrid Calculator
 <script src="https://gist-it.appspot.com/github/adamgilman/ems-costing/blob/master/vendors/sendgrid.py"></script>
 
+<a name="mailgun"></a>
 ## MailGun
 
 ### Tests
@@ -60,6 +80,7 @@ I can get my test cases directly from the webpages of the providers themselves, 
 ### MailGun Calculator
 <script src="https://gist-it.appspot.com/github/adamgilman/ems-costing/blob/master/vendors/mailgun.py"></script>
 
+<a name="postage"></a>
 ## PostageApp
 
 ### Tests
@@ -68,6 +89,7 @@ I can get my test cases directly from the webpages of the providers themselves, 
 ### PostageApp Calculator
 <script src="https://gist-it.appspot.com/github/adamgilman/ems-costing/blob/master/vendors/postageapp.py"></script>
 
+<a name="postmark"></a>
 ## PostmarkApp
 
 ### Tests
@@ -76,6 +98,7 @@ I can get my test cases directly from the webpages of the providers themselves, 
 ### PostmarkApp Calculator
 <script src="https://gist-it.appspot.com/github/adamgilman/ems-costing/blob/master/vendors/postmarkapp.py"></script>
 
+<a name="critsend"></a>
 ## CritSend
 
 ### Tests
