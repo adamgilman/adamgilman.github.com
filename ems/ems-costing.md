@@ -18,6 +18,7 @@ I did an analysis of the following EMS/TEP products from the [Tools Of The Trade
 * [CritSend](http://www.critsend.com/)
 
 ###Excluded
+
 * [Sendwithus](https://www.sendwithus.com/)
 
 	Pricing is based on recipients and not per email. This is too much of a difference to be able to give a good comparison in transactional emails.
