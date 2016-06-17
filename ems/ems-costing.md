@@ -68,7 +68,13 @@ I can get my test cases directly from the webpages of the providers themselves, 
 ### PostageApp Calculator
 <script src="https://gist-it.appspot.com/github/adamgilman/ems-costing/blob/master/vendors/postageapp.py"></script>
 
+## PostmarkApp
 
+### Tests
+<script src="https://gist-it.appspot.com/github/adamgilman/ems-costing/blob/master/tests/tests_postmarkapp.py"></script>
+
+### PostmarkApp Calculator
+<script src="https://gist-it.appspot.com/github/adamgilman/ems-costing/blob/master/vendors/postmarkapp.py"></script>
 
 
 
