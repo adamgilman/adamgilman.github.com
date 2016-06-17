@@ -13,10 +13,10 @@ I did an analysis of the following EMS/TEP products from the [Tools Of The Trade
 * [AWS SES](https://aws.amazon.com/ses/)
 * [SendGrid](http://sendgrid.com/)
 * [MailGun](http://www.mailgun.com/)
-
 * [PostMark](https://postmarkapp.com/)
-* [CritSend](http://www.critsend.com/)
 * [Postage](http://postageapp.com/)
+* [CritSend](http://www.critsend.com/)
+
 * [Sendwithus](https://www.sendwithus.com/)
 * [Mandrill](http://mandrill.com/)
 
@@ -76,6 +76,12 @@ I can get my test cases directly from the webpages of the providers themselves, 
 ### PostmarkApp Calculator
 <script src="https://gist-it.appspot.com/github/adamgilman/ems-costing/blob/master/vendors/postmarkapp.py"></script>
 
+## CritSend
 
+### Tests
+<script src="https://gist-it.appspot.com/github/adamgilman/ems-costing/blob/master/tests/tests_critsend.py"></script>
+
+### CritSend Calculator
+<script src="https://gist-it.appspot.com/github/adamgilman/ems-costing/blob/master/vendors/critsend.py"></script>
 
 .
