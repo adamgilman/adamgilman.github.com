@@ -20,31 +20,6 @@
     <a class="sidebar-nav-item" href="https://github.com/adamgilman">github</a>
     <a class="sidebar-nav-item" href="https://www.linkedin.com/profile/view?id=6666592">linkedin</a>
 
-    <span class="sidebar-nav-item">
-      research projects
-      {% assign pages_list = site.pages | sort:"url" %}
-      {% for node in pages_list %}
-        {% if node.title != null %}
-          {% if node.layout == "page" %}
-            <a class="sidebar-nav-item{% if page.url == node.url %} active{% endif %}" href="{{ node.url }}">{{ node.title }}</a>
-          {% endif %}
-        {% endif %}
-      {% endfor %}
-  </span>
-
-    <span class="sidebar-nav-item">
-      past products
-      <a class="sidebar-nav-item" href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0CCkQFjAA&url=https%3A%2F%2Fitunes.apple.com%2Fus%2Fapp%2Fpga-tour-mobile%2Fid489689106%3Fmt%3D8&ei=x9xRVezcGILUsAXMz4CQBA&usg=AFQjCNGwiUMcTfiC3iRq0OAXEgPN075JIQ&sig2=A-uc5ilSOODem3BrCB4WZA&bvm=bv.92885102,d.b2w">pga tour ipad app</a>
-      <a class="sidebar-nav-item" href="http://www.cnn.com/SPECIALS/2010/worldcup/twitter.buzz/">cnn twitter world cup buzz</a>
-    </span>
-
-    <span class="sidebar-nav-item">
-      open source projects
-      <a class="sidebar-nav-item" href="https://github.com/adamgilman/tube-python">london underground python api</a>
-      <a class="sidebar-nav-item" href="https://github.com/adamgilman/coinbase-exchange-python">coinbase exchange python api</a>
-      <a class="sidebar-nav-item" href="https://github.com/adamgilman/britishairways-python">british airways python api</a>
-    </span>
-
   </nav>
 
   <div class="sidebar-item">
